@@ -11,8 +11,8 @@ import time, random, asyncio, timeit, sys, json, codecs, threading, glob, re, st
 print ("\nSELAMAT DATANG\n")
 
 client = LINE()
-#client = LINE(authToken="YOUR TOKEN")
-client = LINE("Email","Password")
+#client = LINE("TOKENMU")
+#client = LINE("Email","Password")
 client.log("YOUR TOKEN : {}".format(str(client.authToken)))
 channel = LINEChannel(client,client.server.CHANNEL_ID['LINE_TIMELINE'])
 client.log("CHANNEL TOKEN : " + str(channel.getChannelResult()))
