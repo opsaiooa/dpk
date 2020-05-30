@@ -1398,7 +1398,26 @@ def LINE_OP_TYPE(op):
                                         client.sendMessage(send, text=hdc + str(atas), contentMetadata={u'MENTION': json.dumps({'MENTIONEES':com})}, contentType=0)
                                 except Exception as error:
                                     client.sendMessage(send, str(error))
-                        elif msgText.lower().startswith("mention","tag","tagall","群標","點名"):
+                        elif msgText.lower().startswith("mention","tag","tagall"):
+                            if man in Team or man in Connect_to["Admin"]:
+                                gname = client.getGroup(send)
+                                local = [contact.mid for contact in gname.members]
+                                try:
+                                    lur = len(local)//20
+                                    for fu in range(lur+1):
+                                        hdc = u''
+                                        sell=0
+                                        com=[]
+                                        for rid in gname.members[fu*20 : (fu+1)*20]:
+                                            com.append({"S":str(sell), "E" :str(sell+6), "M":rid.mid})
+                                            sell += 7
+                                            hdc += u'@A_DPK\n'
+                                            atas = '\n 群名 {} '.format(str(gname.name))
+                                            atas += '\n 總共 {} 人'.format(str(len(local)))
+                                        client.sendMessage(send, text=hdc + str(atas), contentMetadata={u'MENTION': json.dumps({'MENTIONEES':com})}, contentType=0)
+                                except Exception as error:
+                                    client.sendMessage(send, str(error))
+                        elif msgText.lower().startswith("群標","點名"):
                             if man in Team or man in Connect_to["Admin"]:
                                 gname = client.getGroup(send)
                                 local = [contact.mid for contact in gname.members]
