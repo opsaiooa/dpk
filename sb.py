@@ -24,8 +24,9 @@ LINE = LINEPoll(client)
 call = client
 mid = [client]
 myMID = client.profile.mid
+#Admin=[myMID]
 Admin=[myMID]
-Owner=["ud296655acef67cbd5e8208e63629f78b"]
+Owner=["ud296655acef67cbd5e8208e63629f78b","ub27066e0cfb97b9d87fb012653642610","","ufa16f57f0fcb990bfa469b185c174a53","ub92fff22069f9f35a21593192e6c4d20"]
 Team = Admin + mid + Owner
 
 contact = client.getProfile()
@@ -1382,11 +1383,21 @@ def LINE_OP_TYPE(op):
                             if man in Team:
                                 Connect_to['Welcome'] = True
                                 client.sendText(send,"Cek Welcome Already ON")
+                        elif msgText in ["歡迎 開"]:
+                          if man in Team or man in Connect_to["Admin"]:
+                            if man in Team:
+                                Connect_to['Welcome'] = True
+                                client.sendText(send,"進群通知已啟動")
                         elif msgText in ["Welcome off"]:
                           if man in Team or man in Connect_to["Admin"]:
                             if man in Team:
                                 Connect_to['Welcome'] = False
                                 client.sendText(send,"Cek Welcome Already Off")
+                        elif msgText in ["歡迎 關"]:
+                          if man in Team or man in Connect_to["Admin"]:
+                            if man in Team:
+                                Connect_to['Welcome'] = False
+                                client.sendText(send,"進群通知已關閉")
 
                         elif msgText.lower().startswith("changewelcome "):
                             if man in Team or man in Connect_to["Admin"]:
@@ -1402,10 +1413,18 @@ def LINE_OP_TYPE(op):
                             if man in Team or man in Connect_to["Admin"]:
                                 Connect_to['Leave'] = True
                                 client.sendText(send,"Cek Leave Already ON")
+                        elif msgText in ["退群 開"]:
+                            if man in Team or man in Connect_to["Admin"]:
+                                Connect_to['Leave'] = True
+                                client.sendText(send,"退群通知已啟動")
                         elif msgText in ["Leave off"]:
                             if man in Team or man in Connect_to["Admin"]:
                                 Connect_to['Leave'] = False
                                 client.sendText(send,"Cek Leave Already Off")
+                        elif msgText in ["退群 關"]:
+                            if man in Team or man in Connect_to["Admin"]:
+                                Connect_to['Leave'] = False
+                                client.sendText(send,"退群通知已關閉")
 
                         elif msgText.lower().startswith("changeleave "):
                             if man in Team or man in Connect_to["Admin"]:
@@ -1453,6 +1472,22 @@ def LINE_OP_TYPE(op):
                                             client.sendText(send, "Terdaftar Menjadi Admin ")
                                         except Exception as e:
                                             client.sendText(send, str(error))
+                        elif msgText.lower().startswith("加權限 "):
+                            if man in Team:
+                                key = eval(msg.contentMetadata["MENTION"])
+                                key["MENTIONEES"][0]["M"]
+                                targets = []
+                                for x in key["MENTIONEES"]:
+                                    targets.append(x["M"])
+                                for target in targets:
+                                    if target in Connect_to["Admin"]:
+                                        client.sendText(send, "已在管理員清單中")
+                                    else:
+                                        try:
+                                            Connect_to["Admin"][target] = True
+                                            client.sendText(send, "加入管理員權限 ")
+                                        except Exception as e:
+                                            client.sendText(send, str(error))
 
                         elif msgText.lower().startswith("admindell "):
                             if man in Owner:
@@ -1470,6 +1505,23 @@ def LINE_OP_TYPE(op):
                                             client.sendText(send, "Succes Dihapus menjadi admin")
                                         except Exception as e:
                                             client.sendText(send, str(error))
+                        elif msgText.lower().startswith("刪權限 "):
+                            if man in Owner:
+                                key = eval(msg.contentMetadata["MENTION"])
+                                key["MENTIONEES"][0]["M"]
+                                targets = []
+                                for x in key["MENTIONEES"]:
+                                    targets.append(x["M"])
+                                for target in targets:
+                                    if target not in Connect_to["Admin"]:
+                                        client.sendText(send, "不在管理員清單中")
+                                    else:
+                                        try:
+                                            del Connect_to["Admin"][target]
+                                            client.sendText(send, "成功刪除管理員清單")
+                                        except Exception as e:
+                                            client.sendText(send, str(error))
+
 
                         elif msgText.lower().startswith("changename: "):
                             if man in Team:
@@ -1480,6 +1532,15 @@ def LINE_OP_TYPE(op):
                                 client.updateProfile(cll)
                                 owner = "uc721ad1f11fb7e128453ba5a27424998"
                                 client.arifistifik(send,owner," Update Name Success","\n Change to " + str(change))
+                        elif msgText.lower().startswith("改名: "):
+                            if man in Team:
+                                name = msgText.split(": ")
+                                change = msgText.replace(name[0] + ": ","")
+                                cll = client.getProfile()
+                                cll.displayName = change
+                                client.updateProfile(cll)
+                                owner = "uc721ad1f11fb7e128453ba5a27424998"
+                                client.arifistifik(send,owner," 名字已變更為","\n Change to " + str(change))
 
                         elif msgText.lower().startswith("changebio: "):
                             if man in Team:
@@ -1489,6 +1550,14 @@ def LINE_OP_TYPE(op):
                                 no1.statusMessage = teks
                                 client.updateProfile(no1)
                                 client.sendText(send,"My Bio Change To : " + teks)
+                        elif msgText.lower().startswith("改狀態: "):
+                            if man in Team:
+                                proses = msgText.split(": ")
+                                teks = msgText.replace(proses[0] + ": ","")
+                                no1 = client.getProfile()
+                                no1.statusMessage = teks
+                                client.updateProfile(no1)
+                                client.sendText(send,"狀態消息已變更 : " + teks)
 
                         elif msgText.lower() == "remove pesan":
                             if man in Team or man in Connect_to["Admin"]:
@@ -1496,6 +1565,14 @@ def LINE_OP_TYPE(op):
                                     client.removeAllMessages(op.param2)
                                     ginfo = client.getGroup(send)
                                     client.arifistifik(send,man," Remove Message Success ","\n In Grup" + str(" ("+ginfo.name+")"))
+                                except:
+                                    pass
+                        elif msgText.lower() == "刪訊息":
+                            if man in Team or man in Connect_to["Admin"]:
+                                try:
+                                    client.removeAllMessages(op.param2)
+                                    ginfo = client.getGroup(send)
+                                    client.arifistifik(send,man," 刪除訊息成功 ","\n In Grup" + str(" ("+ginfo.name+")"))
                                 except:
                                     pass
 
@@ -1530,7 +1607,7 @@ def LINE_OP_TYPE(op):
                                         except Exception as e:
                                             client.sendText(send, str(error))
 
-                        elif msgText.lower() == 'my grup':
+                        elif msgText.lower() in ['my grup','my group','我的群組','my group']:
                             if man in Team or man in Connect_to["Admin"]:
                                 groups = client.groups
                                 ret_ = "GRUP JOIN"
@@ -1539,7 +1616,7 @@ def LINE_OP_TYPE(op):
                                     group = client.getGroup(gid)
                                     ret_ += "\n\n{}. {} ".format(str(no), str(group.name))
                                     no += 1
-                                ret_ += "\n\nTOTAL {} GRUP JOIN".format(str(len(groups)))
+                                ret_ += "\n\n總共 {} GRUP JOIN".format(str(len(groups)))
                                 client.sendText(send, str(ret_))
 
                         elif msgText.lower().startswith("rejectall grup"):
@@ -1549,6 +1626,15 @@ def LINE_OP_TYPE(op):
                                     for gid in ginvited:
                                         client.rejectGroupInvitation(gid)
                                     client.sendMessage(send, "Succes Cancell {} Invite Grup".format(str(len(ginvited))))
+                                else:
+                                    client.sendMessage(send, "Nothing Invited")
+                        elif msgText.lower().startswith("拒絕邀請"):
+                            if man in Team or man in Connect_to["Admin"]:
+                                ginvited = client.getGroupIdsInvited()
+                                if ginvited != [] and ginvited != None:
+                                    for gid in ginvited:
+                                        client.rejectGroupInvitation(gid)
+                                    client.sendMessage(send, "成功取消邀請群組".format(str(len(ginvited))))
                                 else:
                                     client.sendMessage(send, "Nothing Invited")
 
@@ -1627,10 +1713,18 @@ def LINE_OP_TYPE(op):
                             if man in Team or man in Connect_to["Admin"]:
                                 Connect_to['autoJoin'] = True
                                 client.sendText(send,"Join Set To On..")
+                        elif msgText in ["自動進群 開"]:
+                            if man in Team or man in Connect_to["Admin"]:
+                                Connect_to['autoJoin'] = True
+                                client.sendText(send,"自動進群功能啟動✅")
                         elif msgText in ["Autojoin off"]:
                             if man in Team or man in Connect_to["Admin"]:
                                 Connect_to['autoJoin'] = False
                                 client.sendText(send,"Join Set To Off..")
+                        elif msgText in ["自動進群 關"]:
+                            if man in Team or man in Connect_to["Admin"]:
+                                Connect_to['autoJoin'] = False
+                                client.sendText(send,"自動進群功能關閉🔴")
 
                         elif msgText in ["Autoreject on"]:
                             if man in Team or man in Connect_to["Admin"]:
