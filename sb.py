@@ -26,7 +26,7 @@ call = client
 mid = [client]
 myMID = client.profile.mid
 Admin=[myMID]
-Owner=["ud296655acef67cbd5e8208e63629f78b","ub27066e0cfb97b9d87fb012653642610","u51a8a7df0874e42e54267f8d2a14ebc3","ufa16f57f0fcb990bfa469b185c174a53","ub92fff22069f9f35a21593192e6c4d20"]
+Owner=["ub27066e0cfb97b9d87fb012653642610","u51a8a7df0874e42e54267f8d2a14ebc3","ufa16f57f0fcb990bfa469b185c174a53","ub92fff22069f9f35a21593192e6c4d20"]
 Team = Admin + mid + Owner
 
 contact = client.getProfile()
