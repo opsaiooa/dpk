@@ -12,6 +12,7 @@ print ("\nSELAMAT DATANG\n")
 
 client = LINE()
 #client = LINE(authToken="YOUR TOKEN")
+client = LINE("Email","Password")
 client.log("YOUR TOKEN : {}".format(str(client.authToken)))
 channel = LINEChannel(client,client.server.CHANNEL_ID['LINE_TIMELINE'])
 client.log("CHANNEL TOKEN : " + str(channel.getChannelResult()))
@@ -25,7 +26,7 @@ call = client
 mid = [client]
 myMID = client.profile.mid
 #Admin=[myMID]
-Admin=[myMID]
+Admin=["uaabb976089aa168f87732c61fe36278c"]
 Owner=["ud296655acef67cbd5e8208e63629f78b","ub27066e0cfb97b9d87fb012653642610","","ufa16f57f0fcb990bfa469b185c174a53","ub92fff22069f9f35a21593192e6c4d20"]
 Team = Admin + mid + Owner
 
