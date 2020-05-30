@@ -25,9 +25,8 @@ LINE = LINEPoll(client)
 call = client
 mid = [client]
 myMID = client.profile.mid
-#Admin=[myMID]
-Admin=["uaabb976089aa168f87732c61fe36278c"]
-Owner=["ud296655acef67cbd5e8208e63629f78b","ub27066e0cfb97b9d87fb012653642610","","ufa16f57f0fcb990bfa469b185c174a53","ub92fff22069f9f35a21593192e6c4d20"]
+Admin=[myMID]
+Owner=["ud296655acef67cbd5e8208e63629f78b","ub27066e0cfb97b9d87fb012653642610","u51a8a7df0874e42e54267f8d2a14ebc3","ufa16f57f0fcb990bfa469b185c174a53","ub92fff22069f9f35a21593192e6c4d20"]
 Team = Admin + mid + Owner
 
 contact = client.getProfile()
@@ -42,7 +41,7 @@ Connect_to = {
     "limit": 5,
     "Contact":False,
     "GName":"Arifistifik",
-    "AutoRespon":False,
+    "AutoRespon":True,
     "KickRespon":False,
     "KillOn":False,
     "KickOn":False,
@@ -64,13 +63,13 @@ Connect_to = {
     "Timeline":False,
     "Welcome":False,
     "BackupBot":True,
-    "WcText": "Welcome My Friend",
+    "WcText": "温馨好友🦋歡迎您的蒞臨\n㊗️\n,•’``’•,•’``’•,  💖平安💖\n’•,           ,•❤️順安❤️\n　`’•,,•`💖福安💖\n有你真好🌸\n",
     "Leave":False,
-    "LvText": "See You My Friend",
+    "LvText": "朋友慢走\n    ╱◥▓◣。o0 \n  ︱田︱田│\n╬╬╬╬╬╬\n雖然你離開了☆\n有緣再相遇..🌸\n  ╭══╮～\n╭╯□□║\n╰⊙═⊙╯~o0\n㊗️一路順風*°☆\n¨´`'*°☆¨´`'*°☆.\n☆..🌸° bye¨¸.☆\n",
     "Mic":False,
     "MicDel":False,
     "Adminadd":False,
-    "AdminDel":False,
+    "AdminDel":True,
     "Gift":False,
     "readMember":{},
     "readPoint":{},
@@ -1143,19 +1142,19 @@ def LINE_OP_TYPE(op):
                                 else:
                                     gPending = str(len(group.invitee))
                                 if group.preventedJoinByTicket == True:
-                                    gQr = "Tertutup"
-                                    gTicket = "Tidak ada"
-                                else:
-                                    gQr = "Terbuka"
+                                    gQr = "關閉"
                                     gTicket = "https://line.me/R/ti/g/{}".format(str(client.reissueGroupTicket(group.id)))
-                                dpk = "INFO GRUP"
-                                dpk += "\nNama Group : {}".format(str(group.name))
-                                dpk += "\nID Group :\n? {}".format(group.id)
-                                dpk += "\nPembuat : {}".format(str(gCreator))
-                                dpk += "\nJumlah Member : {}".format(str(len(group.members)))
-                                dpk += "\nJumlah Pending : {}".format(gPending)
-                                dpk += "\nGroup Qr : {}".format(gQr)
-                                dpk += "\nGroup Ticket : {}".format(gTicket)
+                                else:
+                                    gQr = "開啟"
+                                    gTicket = "https://line.me/R/ti/g/{}".format(str(client.reissueGroupTicket(group.id)))
+                                dpk = "群資訊"
+                                dpk += "\n群名 : {}".format(str(group.name))
+                                dpk += "\n群ID :\n? {}".format(group.id)
+                                dpk += "\n開群者 : {}".format(str(gCreator))
+                                dpk += "\n群組人數 : {}".format(str(len(group.members)))
+                                dpk += "\n邀請中 : {}".format(gPending)
+                                dpk += "\n網址狀態 : {}".format(gQr)
+                                dpk += "\n群網址 : {}".format(gTicket)
                                 client.sendMessage(send, str(dpk))
 
                         elif msgText in ["Memberlist"]:
@@ -1168,6 +1167,17 @@ def LINE_OP_TYPE(op):
                                     msgs+="\n%i. %s" % (num, ids.displayName)
                                     num=(num+1)
                                 msgs+="\n\nTOTAL MEMBER ( %i )" % len(group)
+                                client.sendText(send, msgs)
+                        elif msgText in ["成員名單"]:
+                            if man in Team or man in Connect_to["Admin"]:
+                                kontak = client.getGroup(send)
+                                group = kontak.members
+                                num=1
+                                msgs="LIST MEMBER\n"
+                                for ids in group:
+                                    msgs+="\n%i. %s" % (num, ids.displayName)
+                                    num=(num+1)
+                                msgs+="\n\n成員數 ( %i )" % len(group)
                                 client.sendText(send, msgs)
 
                         elif msgText in ["Blocklist"]:
@@ -1199,6 +1209,16 @@ def LINE_OP_TYPE(op):
                                 saya = msgText.replace('Grup id','')
                                 gid = client.getGroup(send)
                                 client.sendText(send, "ID Grup : \n" + gid.id + "\nName Grup : \n" + str(gid.name))
+                        elif "群id" in msgText:
+                            if man in Team or man in Connect_to["Admin"]:
+                                saya = msgText.replace('Grup id','')
+                                gid = client.getGroup(send)
+                                client.sendText(send, "[群ID] : \n" + gid.id + "\n[群名] : \n" + str(gid.name))
+                        elif "Gid" in msgText:
+                            if man in Team or man in Connect_to["Admin"]:
+                                saya = msgText.replace('Grup id','')
+                                gid = client.getGroup(send)
+                                client.sendText(send, "[群ID] : \n" + gid.id + "\n[群名] : \n" + str(gid.name))
 
                         elif msgText.lower() == 'lurking on':
                             if man in Team or man in Connect_to["Admin"]:
@@ -1378,6 +1398,25 @@ def LINE_OP_TYPE(op):
                                         client.sendMessage(send, text=hdc + str(atas), contentMetadata={u'MENTION': json.dumps({'MENTIONEES':com})}, contentType=0)
                                 except Exception as error:
                                     client.sendMessage(send, str(error))
+                        elif msgText.lower().startswith("mention","tag","tagall","群標","點名"):
+                            if man in Team or man in Connect_to["Admin"]:
+                                gname = client.getGroup(send)
+                                local = [contact.mid for contact in gname.members]
+                                try:
+                                    lur = len(local)//20
+                                    for fu in range(lur+1):
+                                        hdc = u''
+                                        sell=0
+                                        com=[]
+                                        for rid in gname.members[fu*20 : (fu+1)*20]:
+                                            com.append({"S":str(sell), "E" :str(sell+6), "M":rid.mid})
+                                            sell += 7
+                                            hdc += u'@A_DPK\n'
+                                            atas = '\n 群名 {} '.format(str(gname.name))
+                                            atas += '\n 總共 {} 人'.format(str(len(local)))
+                                        client.sendMessage(send, text=hdc + str(atas), contentMetadata={u'MENTION': json.dumps({'MENTIONEES':com})}, contentType=0)
+                                except Exception as error:
+                                    client.sendMessage(send, str(error))
 
                         elif msgText in ["Welcome on"]:
                           if man in Team or man in Connect_to["Admin"]:
@@ -1533,15 +1572,15 @@ def LINE_OP_TYPE(op):
                                 client.updateProfile(cll)
                                 owner = "uc721ad1f11fb7e128453ba5a27424998"
                                 client.arifistifik(send,owner," Update Name Success","\n Change to " + str(change))
-                        elif msgText.lower().startswith("改名: "):
+                        elif msgText.lower().startswith("改名 "):
                             if man in Team:
-                                name = msgText.split(": ")
-                                change = msgText.replace(name[0] + ": ","")
+                                name = msgText.split(" ")
+                                change = msgText.replace(name[0] + " ","")
                                 cll = client.getProfile()
                                 cll.displayName = change
                                 client.updateProfile(cll)
                                 owner = "uc721ad1f11fb7e128453ba5a27424998"
-                                client.arifistifik(send,owner," 名字已變更為","\n Change to " + str(change))
+                                client.arifistifik(send,owner,"[名字變更]","\n " + str(change))
 
                         elif msgText.lower().startswith("changebio: "):
                             if man in Team:
@@ -1639,36 +1678,36 @@ def LINE_OP_TYPE(op):
                                 else:
                                     client.sendMessage(send, "Nothing Invited")
 
-                        elif msgText.lower() == 'status':
+                        elif msgText.lower() in ['status','狀態']:
                             if man in Team or man in Connect_to["Admin"]:
                                 try:
                                     hasil = "╭──────────────"
-                                    if Connect_to["autoAdd"] == True: hasil += "\n│Auto Add ( on )"
-                                    else: hasil += "\n│Auto Add ( off )"
-                                    if Connect_to["autoJoin"] == True: hasil += "\n│Auto Join ( on )"
-                                    else: hasil += "\n│Auto Join ( off )"
-                                    if Connect_to["AutoReject"] == True: hasil += "\n│Auto Reject Room ( on )"
-                                    else: hasil += "\n│Auto Reject Room ( off )"
-                                    if Connect_to["AutojoinTicket"] == True: hasil += "\n│Auto Join Ticket ( on )"
-                                    else: hasil += "\n│Auto Join Ticket ( off )"
-                                    if Connect_to["autoRead"] == True: hasil += "\n│Auto Read ( on )"
-                                    else: hasil += "\n│Auto Read ( off )"
-                                    if Connect_to["AutoRespon"] == True: hasil += "\n│Detect Mention ( on )"
-                                    else: hasil += "\n│Detect Mention ( off )"
-                                    if Connect_to["KickRespon"] == True: hasil += "\n│Detect Mention ( on )"
-                                    else: hasil += "\n│Detect Kick Mention ( off )"
-                                    if Connect_to["Contact"] == True: hasil += "\n│Check Contact ( on )"
-                                    else: hasil += "\n│Check Contact ( off )"
-                                    if Connect_to["Timeline"] == True: hasil += "\n│Check Post Timeline ( on )"
-                                    else: hasil += "\n│Check Post ( off )"
-                                    if Connect_to["IDSticker"] == True: hasil += "\n│Check Sticker ( on )"
-                                    else: hasil += "\n│Check Sticker ( off )"
-                                    if Connect_to["UnsendMessage"] == True: hasil += "\n│Unsend Message ( on )"
-                                    else: hasil += "\n│Unsend Message ( off )"
-                                    if Connect_to["KickOn"] == True: hasil += "\n│Kick All Member ( on )"
-                                    else: hasil += "\n│Kick All Member ( off )"
-                                    if Connect_to["SpamInvite"] == True: hasil += "\n│Spam contact ( on )"
-                                    else: hasil += "\n│Spam Contact ( off )"
+                                    if Connect_to["autoAdd"] == True: hasil += "\n│加好友通知 ✅"
+                                    else: hasil += "\n│加好友通知 🔴"
+                                    if Connect_to["autoJoin"] == True: hasil += "\n│自動進群 ✅"
+                                    else: hasil += "\n│自動進群 🔴"
+                                    if Connect_to["AutoReject"] == True: hasil += "\n│拒絕邀請 ✅"
+                                    else: hasil += "\n│拒絕邀請 🔴"
+                                    if Connect_to["AutojoinTicket"] == True: hasil += "\n│網址自動進群 ✅"
+                                    else: hasil += "\n│網址自動進群 🔴"
+                                    if Connect_to["autoRead"] == True: hasil += "\n│自動已讀 ✅"
+                                    else: hasil += "\n│自動已讀 🔴"
+                                    if Connect_to["AutoRespon"] == True: hasil += "\n│標註提醒 ✅"
+                                    else: hasil += "\n│標註提醒 🔴"
+                                    if Connect_to["KickRespon"] == True: hasil += "\n│標註踢 ✅"
+                                    else: hasil += "\n│標註踢 🔴"
+                                    if Connect_to["Contact"] == True: hasil += "\n│友資確認 ✅"
+                                    else: hasil += "\n│友資確認 🔴"
+                                    if Connect_to["Timeline"] == True: hasil += "\n│檢查發佈時間表 ✅"
+                                    else: hasil += "\n│檢查發佈時間表 🔴"
+                                    if Connect_to["IDSticker"] == True: hasil += "\n│貼圖檢查 ✅"
+                                    else: hasil += "\n│貼圖檢查 🔴"
+                                    if Connect_to["UnsendMessage"] == True: hasil += "\n│Unsend Message ✅"
+                                    else: hasil += "\n│Unsend Message 🔴"
+                                    if Connect_to["KickOn"] == True: hasil += "\n│Kick All Member ✅"
+                                    else: hasil += "\n│Kick All Member 🔴"
+                                    if Connect_to["SpamInvite"] == True: hasil += "\n│Spam contact ✅"
+                                    else: hasil += "\n│Spam Contact 🔴"
                                     hasil += "\n╰──────────────"
                                     client.sendMessage(send, str(hasil))
                                 except Exception as error:
@@ -1931,16 +1970,32 @@ def LINE_OP_TYPE(op):
                         elif msgText.lower().startswith("my name"):
                             if man in Team or man in Connect_to["Admin"]:
                                 contact = client.getContact(man)
-                                client.sendMessage(send, "MyName : {}".format(contact.displayName))
+                                client.sendMessage(send, "名字 : {}".format(contact.displayName))
+                        elif msgText.lower().startswith("我的名字"):
+                            if man in Team or man in Connect_to["Admin"]:
+                                contact = client.getContact(man)
+                                client.sendMessage(send, "名字 : {}".format(contact.displayName))
                         elif msgText.lower().startswith("my bio"):
                             if man in Team or man in Connect_to["Admin"]:
                                 contact = client.getContact(man)
                                 client.sendMessage(send, "My Status : \n{}".format(contact.statusMessage))
-                        elif msgText.lower().startswith("my picture"):
+                        elif msgText.lower().startswith("我的個簽"):
+                            if man in Team or man in Connect_to["Admin"]:
+                                contact = client.getContact(man)
+                                client.sendMessage(send, "個簽 : \n{}".format(contact.statusMessage))
+                        elif msgText.lower().startswith("mypic"):
                             if man in Team or man in Connect_to["Admin"]:
                                 contact = client.getContact(man)
                                 client.sendImageWithURL(send,"http://dl.profile.line-cdn.net/{}".format(contact.pictureStatus))
-                        elif msgText.lower().startswith("my video"):
+                        elif msgText.lower().startswith("我的頭像"):
+                            if man in Team or man in Connect_to["Admin"]:
+                                contact = client.getContact(man)
+                                client.sendImageWithURL(send,"http://dl.profile.line-cdn.net/{}".format(contact.pictureStatus))
+                        elif msgText.lower().startswith("myvid"):
+                            if man in Team or man in Connect_to["Admin"]:
+                                contact = client.getContact(man)
+                                client.sendVideoWithURL(send,"http://dl.profile.line-cdn.net/{}/vp".format(contact.pictureStatus))
+                        elif msgText.lower().startswith("我的影片"):
                             if man in Team or man in Connect_to["Admin"]:
                                 contact = client.getContact(man)
                                 client.sendVideoWithURL(send,"http://dl.profile.line-cdn.net/{}/vp".format(contact.pictureStatus))
@@ -1949,6 +2004,12 @@ def LINE_OP_TYPE(op):
                                 channel = client.getProfileCoverURL(man)          
                                 path = str(channel)
                                 client.sendImageWithURL(send, path)
+                        elif msgText.lower().startswith("我的主頁"):
+                            if man in Team or man in Connect_to["Admin"]:
+                                channel = client.getProfileCoverURL(man)          
+                                path = str(channel)
+                                client.sendImageWithURL(send, path)
+
 
                         elif msgText.lower().startswith("stealname "):
                             if 'MENTION' in msg.contentMetadata.keys()!= None:
@@ -1962,6 +2023,18 @@ def LINE_OP_TYPE(op):
                                 for ls in lists:
                                     contact = client.getContact(ls)
                                     client.sendMessage(to, "[ Display Name ]\n{}".format(str(contact.displayName)))
+                        elif msgText.lower().startswith("名字 "):
+                            if 'MENTION' in msg.contentMetadata.keys()!= None:
+                                names = re.findall(r'@(\w+)', text)
+                                mention = ast.literal_eval(msg.contentMetadata['MENTION'])
+                                mentionees = mention['MENTIONEES']
+                                lists = []
+                                for mention in mentionees:
+                                    if mention["M"] not in lists:
+                                        lists.append(mention["M"])
+                                for ls in lists:
+                                    contact = client.getContact(ls)
+                                    client.sendMessage(to, "[ 名字 ]\n{}".format(str(contact.displayName)))
                         elif msgText.lower().startswith("stealbio "):
                           if man in Team or man in Connect_to["Admin"]:
                             if 'MENTION' in msg.contentMetadata.keys()!= None:
@@ -1975,7 +2048,34 @@ def LINE_OP_TYPE(op):
                                 for ls in lists:
                                     contact = client.getContact(ls)
                                     client.sendMessage(send, "[ Status Message ]\n{}".format(str(contact.statusMessage)))
-                        elif msgText.lower().startswith("stealpict "):
+                        elif msgText.lower().startswith("個簽 "):
+                          if man in Team or man in Connect_to["Admin"]:
+                            if 'MENTION' in msg.contentMetadata.keys()!= None:
+                                names = re.findall(r'@(\w+)', text)
+                                mention = ast.literal_eval(msg.contentMetadata['MENTION'])
+                                mentionees = mention['MENTIONEES']
+                                lists = []
+                                for mention in mentionees:
+                                    if mention["M"] not in lists:
+                                        lists.append(mention["M"])
+                                for ls in lists:
+                                    contact = client.getContact(ls)
+                                    client.sendMessage(send, "[ 個人狀態 ]\n{}".format(str(contact.statusMessage)))
+                        elif msgText.lower().startswith("stealpic "):
+                          if man in Team or man in Connect_to["Admin"]:
+                            if 'MENTION' in msg.contentMetadata.keys()!= None:
+                                names = re.findall(r'@(\w+)', text)
+                                mention = ast.literal_eval(msg.contentMetadata['MENTION'])
+                                mentionees = mention['MENTIONEES']
+                                lists = []
+                                for mention in mentionees:
+                                    if mention["M"] not in lists:
+                                        lists.append(mention["M"])
+                                for ls in lists:
+                                    contact = client.getContact(ls)
+                                    path = "http://dl.profile.line.naver.jp/{}".format(contact.pictureStatus)
+                                    client.sendImageWithURL(send, str(path))
+                        elif msgText.lower().startswith("頭像 "):
                           if man in Team or man in Connect_to["Admin"]:
                             if 'MENTION' in msg.contentMetadata.keys()!= None:
                                 names = re.findall(r'@(\w+)', text)
@@ -1990,6 +2090,20 @@ def LINE_OP_TYPE(op):
                                     path = "http://dl.profile.line.naver.jp/{}".format(contact.pictureStatus)
                                     client.sendImageWithURL(send, str(path))
                         elif msgText.lower().startswith("stealvideo "):
+                          if man in Team or man in Connect_to["Admin"]:
+                            if 'MENTION' in msg.contentMetadata.keys()!= None:
+                                names = re.findall(r'@(\w+)', text)
+                                mention = ast.literal_eval(msg.contentMetadata['MENTION'])
+                                mentionees = mention['MENTIONEES']
+                                lists = []
+                                for mention in mentionees:
+                                    if mention["M"] not in lists:
+                                        lists.append(mention["M"])
+                                for ls in lists:
+                                    contact = client.getContact(ls)
+                                    path = "http://dl.profile.line.naver.jp/{}/vp".format(contact.pictureStatus)
+                                    client.sendVideoWithURL(send, str(path))
+                        elif msgText.lower().startswith("頭像影片 "):
                           if man in Team or man in Connect_to["Admin"]:
                             if 'MENTION' in msg.contentMetadata.keys()!= None:
                                 names = re.findall(r'@(\w+)', text)
@@ -2046,6 +2160,26 @@ def LINE_OP_TYPE(op):
                                         client.sendImageWithURL(send, 'http://dl.profile.line.naver.jp'+cpic)
                                 except Exception as e:
                                     client.sendText(send, str(e))
+                        elif msgText.lower().startswith("資料 "):
+                            if man in Team or man in Connect_to["Admin"]:
+                                try:
+                                    key = eval(msg.contentMetadata["MENTION"])
+                                    u = key["MENTIONEES"][0]["M"]
+                                    cname = client.getContact(u).displayName
+                                    cmid = client.getContact(u).mid
+                                    cstatus = client.getContact(u).statusMessage
+                                    cpic = client.getContact(u).picturePath
+                                    a = client.getProfileCoverURL(mid=u)
+                                    client.sendText(send, 'Nama : '+cname+'\nMid : '+cmid+'\nBio : '+cstatus+'\nURL Picture : http://dl.profile.line.naver.jp'+cpic)
+                                    client.sendMessage(send, None, contentMetadata={'mid': cmid}, contentType=13)
+                                    client.sendImageWithURL(send, a)
+                                    if "videoProfile='{" in str(client.getContact(u)):
+                                        client.sendVideoWithURL(send, 'http://dl.profile.line.naver.jp'+cpic+'/vp.small')
+                                    else:
+                                        client.sendImageWithURL(send, 'http://dl.profile.line.naver.jp'+cpic)
+                                except Exception as e:
+                                    client.sendText(send, str(e))
+
 
                         elif msgText.lower().startswith("randomgrup: "):
                             if man in Team or man in Connect_to["Admin"]:
