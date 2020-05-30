@@ -135,7 +135,7 @@ cctv={
     "Point3":{}
 }
 
-Help ="""
+/Help ="""
 ╭──────────
 ├──────────
 │help
@@ -156,7 +156,7 @@ Help ="""
 ├──────────
 ╰──────────
 """
-Help2 ="""
+/Help2 ="""
 ╭───────────
 ├───────────
 │me
@@ -190,7 +190,7 @@ Help2 ="""
 ╰───────────
 """
 
-Help3 ="""
+/Help3 ="""
 ╭──────────
 ├──────────
 │berita
@@ -216,7 +216,7 @@ Help3 ="""
 ╰──────────
 """
 
-Help4 ="""
+/Help4 ="""
 ╭───────────
 ├───────────
 │unsend on/off
@@ -253,7 +253,7 @@ Help4 ="""
 ╰───────────
 """
 
-Help5 ="""
+/Help5 ="""
 ╭───────────
 ├───────────
 │gcall
@@ -884,32 +884,32 @@ def LINE_OP_TYPE(op):
                         if msgText.lower() == '_PYTHON3_':
                             client.sendMessage(0, man)
 
-                        elif msgText.lower() == "me":
+                        elif msgText.lower() in ['me','我']:
                             if man in Team or man in Connect_to["Admin"]:
                                 client.sendMessage(send, None, contentMetadata={'mid': man}, contentType=13)
                                 client.arifistifik(send,man," Hay","")
 
-                        elif msgText.lower() == "help":
+                        elif msgText.lower() == "/help":
                             if man in Team or man in Connect_to["Admin"]:
                                  client.sendMessage(send, str(Help))
 
-                        elif msgText.lower() == "help2":
+                        elif msgText.lower() == "/help2":
                             if man in Team or man in Connect_to["Admin"]:
                                  client.sendMessage(send, str(Help2))
 
-                        elif msgText.lower() == "help3":
+                        elif msgText.lower() == "/help3":
                             if man in Team or man in Connect_to["Admin"]:
                                  client.sendMessage(send, str(Help3))
 
-                        elif msgText.lower() == "help4":
+                        elif msgText.lower() == "/help4":
                             if man in Team or man in Connect_to["Admin"]:
                                  client.sendMessage(send, str(Help4))
 
-                        elif msgText.lower() == "help5":
+                        elif msgText.lower() == "/help5":
                             if man in Team or man in Connect_to["Admin"]:
                                  client.sendMessage(send, str(Help5))
 
-                        elif msgText.lower() == "speed":
+                        elif msgText.lower() in ['speed','sp','速度']:
                             if man in Team or man in Connect_to["Admin"]:
                                 no = time.time()
                                 client.sendText("u5cddc1ed7ed83dd61226e5bd229b0ccb", ' ')
