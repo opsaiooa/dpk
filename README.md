@@ -9,7 +9,7 @@ HOW TO RUN VIA VPS ( VIRTUAL PRIVATE SERVER )
 6. sudo pip3 install googletrans
 7. sudo pip3 install bs4
 8. sudo pip3 install requests
-9 .sudo pip3 install rsa
+9.sudo pip3 install rsa
 10. sudo pip3 install thrift
 11. sudo pip3 install bs4
 12. sudo pip3 install pytz
