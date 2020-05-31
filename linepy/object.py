@@ -201,5 +201,3 @@ class Object(object):
         if r.status_code != 200:
             raise Exception('Forward object failure.')
         return True
-
-
