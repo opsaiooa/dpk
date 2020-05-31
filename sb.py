@@ -2758,7 +2758,7 @@ while True:
                 Dhenza["leftmsg"] = msg.text.replace("改退群詞: ","")
                 with open('teks.json', 'w') as fp:
                     json.dump(Dhenza, fp, sort_keys=True, indent=4)
-                dz.sendMessage(msg.to,"⟦退群詞已變更⟧")   
+                client.sendMessage(msg.to,"⟦退群詞已變更⟧")   
             elif msg.text in ["退群詞"]:
-                dz.sendMessage(msg.to,"⟦退群詞⟧ \n\n" + Dhenza["leftmsg"])
+                client.sendMessage(msg.to,"⟦退群詞⟧ \n\n" + Dhenza["leftmsg"])
 		
