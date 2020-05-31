@@ -262,8 +262,8 @@ Help5 ="""
 │leaveall grup
 │rejectall grup
 │mentionall
-│changewelcome
-│changeleave
+│changewelcome:
+│changeleave:
 │memberlist
 │my grup
 │gurl
