@@ -48,7 +48,7 @@ Connect_to = {
     "Upfoto":False,
     "UpfotoBot":False,
     "UpfotoGroup":False,
-    "Steal":False,
+    "Steal":True,
     "Invite":False,
     "Copy":False,
     "autoAdd":True,
@@ -57,14 +57,14 @@ Connect_to = {
     "autoBlock":False,
     "autoJoin":True,
     "AutojoinTicket":False,
-    "AutoReject":False,
+    "AutoReject":True,
     "autoRead":False,
     "IDSticker":False,
     "Timeline":False,
-    "Welcome":False,
+    "Welcome":True,
     "BackupBot":True,
     "WcText": "温馨好友🦋歡迎您的蒞臨\n㊗️\n,•’``’•,•’``’•,  💖平安💖\n’•,           ,•❤️順安❤️\n　`’•,,•`💖福安💖\n有你真好🌸\n",
-    "Leave":False,
+    "Leave":True,
     "LvText": "朋友慢走\n    ╱◥▓◣。o0 \n  ︱田︱田│\n╬╬╬╬╬╬\n雖然你離開了☆\n有緣再相遇..🌸\n  ╭══╮～\n╭╯□□║\n╰⊙═⊙╯~o0\n㊗️一路順風*°☆\n¨´`'*°☆¨´`'*°☆.\n☆..🌸° bye¨¸.☆\n",
     "Mic":False,
     "MicDel":False,
@@ -969,11 +969,33 @@ def LINE_OP_TYPE(op):
                                         for target in targets:
                                           if target not in Team and target not in Connect_to["Admin"]:
                                             try:
-                                                klist=[cl]
+                                                klist=[client]
                                                 kicker=random.choice(klist)
                                                 kicker.kickoutFromGroup(send,[target])
                                             except Exception as error:
                                                 client.sendText(send, str(error))
+                        elif "跟我打" in msgText:
+                            if man in Team or man in Connect_to["Admin"]:
+                              if msg.toType == 2:
+                                if Connect_to["KickOn"]:
+                                    _name = msg.text.replace("跟我打","")
+                                    gs = client.getGroup(send)
+                                    targets = []
+                                    for g in gs.members:
+                                        if _name in g.displayName:
+                                            targets.append(g.mid)
+                                    if targets == []:
+                                        client.sendText(send,"Target Not found.")
+                                    else:
+                                        for target in targets:
+                                          if target not in Team and target not in Connect_to["Admin"]:
+                                            try:
+                                                klist=[client]
+                                                kicker=random.choice(klist)
+                                                kicker.kickoutFromGroup(send,[target])
+                                            except Exception as error:
+                                                client.sendText(send, str(error))
+
 
                         elif msgText.lower().startswith("spam "):
                             if man in Team or man in Connect_to["Admin"]:
@@ -1088,7 +1110,7 @@ def LINE_OP_TYPE(op):
                                     group.preventedJoinByTicket = True
                                     client.updateGroup(group)
 
-                        elif msgText.lower() == 'gurl':
+                        elif msgText.lower() in ['gurl','群網址']:
                           if man in Team or man in Connect_to["Admin"]:
                             if msg.toType == 2:
                                 grup = client.getGroup(send)
@@ -1098,7 +1120,7 @@ def LINE_OP_TYPE(op):
                                 else:
                                     client.sendMessage(send, "Ketik Link on Dulu kaka")
 
-                        elif msgText.lower() == 'gcreator':
+                        elif msgText.lower() in ['開群者','gcreator']:
                             if man in Team or man in Connect_to["Admin"]:
                                 try:
                                     group = client.getGroup(send)
@@ -1149,7 +1171,7 @@ def LINE_OP_TYPE(op):
                                     gTicket = "https://line.me/R/ti/g/{}".format(str(client.reissueGroupTicket(group.id)))
                                 dpk = "群資訊"
                                 dpk += "\n群名 : {}".format(str(group.name))
-                                dpk += "\n群ID :\n? {}".format(group.id)
+                                dpk += "\n群ID : {}".format(group.id)
                                 dpk += "\n開群者 : {}".format(str(gCreator))
                                 dpk += "\n群組人數 : {}".format(str(len(group.members)))
                                 dpk += "\n邀請中 : {}".format(gPending)
@@ -1697,7 +1719,25 @@ def LINE_OP_TYPE(op):
                                         pass
                                     else:
                                         try:
-                                            klist=[cl]
+                                            klist=[client]
+                                            kicker=random.choice(klist)
+                                            kicker.kickoutFromGroup(send,[target])
+                                            Connect_to["Blacklist"][target] = True
+                                        except Exception as e:
+                                            client.sendText(send, str(error))
+                        elif msgText.lower().startswith("踢 "):
+                            if man in Team or man in Connect_to["Admin"]:
+                                key = eval(msg.contentMetadata["MENTION"])
+                                key["MENTIONEES"][0]["M"]
+                                targets = []
+                                for x in key["MENTIONEES"]:
+                                    targets.append(x["M"])
+                                for target in targets:
+                                    if target in mid:
+                                        pass
+                                    else:
+                                        try:
+                                            klist=[client]
                                             kicker=random.choice(klist)
                                             kicker.kickoutFromGroup(send,[target])
                                             Connect_to["Blacklist"][target] = True
@@ -2692,3 +2732,33 @@ while True:
                 thread1.join()
     except Exception as error:
         print (error)
+
+	
+######===================自加=================================
+
+                elif text.lower() in ['cancel','取消邀請','清除邀請']:
+                    if msg.toType == 2:
+                        group = cl.getGroup(to)
+                        gMembMids = [contact.mid for contact in group.invitee]
+                    for _mid in gMembMids:
+                        client.cancelGroupInvitation(msg.to,[_mid])
+                        sleep(0.2)
+                    client.sendMessage(msg.to, "⟦已成功清除待邀區人員⟧")
+		
+		
+            elif "改歡迎詞: " in msg.text:
+                Dhenza["welmsg"] = msg.text.replace("改歡迎詞: ","")
+                with open('teks.json', 'w') as fp:
+                    json.dump(Dhenza, fp, sort_keys=True, indent=4)
+                client.sendMessage(msg.to,"⟦歡迎詞已變更⟧")   
+            elif msg.text in ["歡迎詞"]:
+                client.sendMessage(msg.to,"⟦歡迎詞⟧ \n\n" + Dhenza["welmsg"])   
+		   
+            elif "改退群詞: " in msg.text:
+                Dhenza["leftmsg"] = msg.text.replace("改退群詞: ","")
+                with open('teks.json', 'w') as fp:
+                    json.dump(Dhenza, fp, sort_keys=True, indent=4)
+                dz.sendMessage(msg.to,"⟦退群詞已變更⟧")   
+            elif msg.text in ["退群詞"]:
+                dz.sendMessage(msg.to,"⟦退群詞⟧ \n\n" + Dhenza["leftmsg"])
+		
