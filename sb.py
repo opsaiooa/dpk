@@ -262,8 +262,8 @@ Help5 ="""
 │leaveall grup
 │rejectall grup
 │mentionall
-│changewelcome:
-│changeleave:
+│changewelcome
+│changeleave
 │memberlist
 │my grup
 │gurl
@@ -1527,6 +1527,15 @@ def LINE_OP_TYPE(op):
                                     client.sendText(send,"Name Welcome Change to:\n" +str("(" +data+ ")"))
                                 except:
                                     client.sendText(send,"Name Error")
+                        elif msgText.lower().startswith("改歡迎詞 "):
+                            if man in Team or man in Connect_to["Admin"]:
+                                teks = msgText.split(": ")
+                                data = msgText.replace(teks[0] + ": ","")
+                                try:
+                                    Connect_to["WcText"] = data
+                                    client.sendText(send,"⟦歡迎詞已變更⟧\n" +str("(" +data+ ")"))
+                                except:
+                                    client.sendText(send,"Name Error")
 
                         elif msgText in ["Leave on"]:
                             if man in Team or man in Connect_to["Admin"]:
@@ -1552,6 +1561,15 @@ def LINE_OP_TYPE(op):
                                 try:
                                     Connect_to["LvText"] = data
                                     client.sendText(send,"Name Leave Change to:\n" +str("(" +data+ ")"))
+                                except:
+                                    client.sendText(send,"Name Error")
+                        elif msgText.lower().startswith("改退群詞 "):
+                            if man in Team or man in Connect_to["Admin"]:
+                                teks = msgText.split(": ")
+                                data = msgText.replace(teks[0] + ": ","")
+                                try:
+                                    Connect_to["LvText"] = data
+                                    client.sendText(send,"⟦退群詞已變更⟧\n" +str("(" +data+ ")"))
                                 except:
                                     client.sendText(send,"Name Error")
 
