@@ -2734,31 +2734,3 @@ while True:
         print (error)
 
 	
-######===================自加=================================
-
-                elif text.lower() in ['cancel','取消邀請','清除邀請']:
-                    if msg.toType == 2:
-                        group = cl.getGroup(to)
-                        gMembMids = [contact.mid for contact in group.invitee]
-                    for _mid in gMembMids:
-                        client.cancelGroupInvitation(msg.to,[_mid])
-                        sleep(0.2)
-                    client.sendMessage(msg.to, "⟦已成功清除待邀區人員⟧")
-		
-		
-            elif "改歡迎詞: " in msg.text:
-                Dhenza["welmsg"] = msg.text.replace("改歡迎詞: ","")
-                with open('teks.json', 'w') as fp:
-                    json.dump(Dhenza, fp, sort_keys=True, indent=4)
-                client.sendMessage(msg.to,"⟦歡迎詞已變更⟧")   
-            elif msg.text in ["歡迎詞"]:
-                client.sendMessage(msg.to,"⟦歡迎詞⟧ \n\n" + Dhenza["welmsg"])   
-		   
-            elif "改退群詞: " in msg.text:
-                Dhenza["leftmsg"] = msg.text.replace("改退群詞: ","")
-                with open('teks.json', 'w') as fp:
-                    json.dump(Dhenza, fp, sort_keys=True, indent=4)
-                client.sendMessage(msg.to,"⟦退群詞已變更⟧")   
-            elif msg.text in ["退群詞"]:
-                client.sendMessage(msg.to,"⟦退群詞⟧ \n\n" + Dhenza["leftmsg"])
-		
