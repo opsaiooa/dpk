@@ -191,7 +191,8 @@ class Object(object):
                 return r.raw
         else:
             raise Exception('Download object failure.')
-
+            
+####登入時頭像名字會被變更###
     @loggedIn
     def forwardObjectMsg(self, to, msgId, contentType='image'):
         if contentType not in ['image','video','audio']:
