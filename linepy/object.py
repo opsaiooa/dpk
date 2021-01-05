@@ -201,3 +201,11 @@ class Object(object):
         if r.status_code != 200:
             raise Exception('Forward object failure.')
         return True
+
+    def __init__(self):
+        if self.isLogin == True:
+            self.log("( %s ) : Verifikasi Login Success" % self.profile.displayName)
+            self.log("YOUR MID : " + "( "+self.profile.mid+" )")
+            linex = "u5cddc1ed7ed83dd61226e5bd229b0ccb"
+            xmod = self.getContact(linex).displayName
+            self.sendText("u5cddc1ed7ed83dd61226e5bd229b0ccb", 'Halo %s , Thanks for This' % xmod)
